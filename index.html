@@ -358,9 +358,17 @@
                       `✍️ 먹고 싶은 메뉴/맛집: ${menuText}\n\n` +
                       `200일 축하해! 맛있는 거 먹으러 가자! 🥂✨`;
 
-      setTimeout(() => {
-        window.location.href = `https://sharer.kakao.com/talk/friends/picker/link?app_key=&message=${encodeURIComponent(message)}`;
+            setTimeout(() => {
+        if (navigator.share) {
+          navigator.share({
+            title: '200일 기념 식사권',
+            text: message
+          }).catch(() => {});
+        } else {
+          alert(message);
+        }
       }, 800);
+
     }
   </script>
 </body>
