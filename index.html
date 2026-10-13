@@ -219,29 +219,45 @@
       display: none;
       justify-content: center;
       align-items: center;
+      z-index: 999;
     }
 
     .modal-box {
       background: white;
       padding: 24px;
       border-radius: 20px;
-      width: 85%;
-      max-width: 320px;
+      width: 90%;
+      max-width: 340px;
       text-align: center;
     }
 
     .modal-msg {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: bold;
       color: var(--cocoa-brown);
-      margin-bottom: 20px;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .catch-link-btn {
+      display: block;
+      background: #ff3b30;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 14px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      font-size: 15px;
+      box-shadow: 0 4px 10px rgba(255, 59, 48, 0.3);
     }
 
     .modal-close-btn {
-      background: var(--main-pink);
-      color: white;
+      background: #e2d8d5;
+      color: var(--cocoa-brown);
       border: none;
-      padding: 10px 20px;
+      width: 100%;
+      padding: 12px;
       border-radius: 12px;
       font-weight: bold;
       cursor: pointer;
@@ -318,11 +334,15 @@
   <div class="modal-overlay" id="modal">
     <div class="modal-box">
       <div class="modal-msg" id="modalMsg">미안해,,준비하지 못했오,, 🥺</div>
-      <button class="modal-close-btn" onclick="closeModal()">다시 고르기 💖</button>
+      <div id="modalContent"></div>
+      <button class="modal-close-btn" onclick="closeModal()" id="modalBtnText">다시 고르기 💖</button>
     </div>
   </div>
 
   <script>
+    // 💡 아래 따옴표 안에 복사해 오신 캐치테이블 예약/공유 링크를 쏙 넣어주세요!
+    const catchTableUrl = "https://app.catchtable.co.kr/ct/invite/dining/whI7gR4_MPwNK-ICNo_N1w?reservationRef=wepyvv-5OFb6NFHZ7_wxOA&pathType=A&invitorRef=x_F7iMVq2WJeY0IUEZERqw&inviteLogRef=0MK5drh1VR2w2kRjpxoMug";
+
     let selectedType = 'secret';
 
     function openEnvelope() {
@@ -343,32 +363,27 @@
 
     function useVoucher() {
       if (selectedType !== 'secret') {
-        document.getElementById('modalMsg').innerText = "미안해,,준비하지 못했오,, 🥺\n다시 한 번 골라줘!";
+        document.getElementById('modalMsgនិយាយ'] = "";
+        document.getElementById('modalMsg').innerText = "미안해,,준비하지 못했오,, 🥺\n다른 걸 골라봐!";
+        document.getElementById('modalContent').innerHTML = "";
+        document.getElementById('modalBtnText').innerText = "다시 고르기 💖";
         document.getElementById('modal').style.display = 'flex';
         return;
       }
 
-      confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+      confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } });
 
-      const menuText = document.getElementById('menuInput').value.trim() || '강민이가 정해주는 추천 맛집!';
-      const message = `🎟️ [200일 기념 식사권 사용 예약!]\n\n` +
-                      `💕 받는 사람: 강민이 제일 좋아하는 서녕\n` +
-                      `💌 발급자: 선영이를 가장 좋아하는 사람\n` +
-                      `🍽️ 선택한 맛집: 강민이가 예약해둔 시크릿 맛집\n` +
-                      `✍️ 먹고 싶은 메뉴/맛집: ${menuText}\n\n` +
-                      `200일 축하해! 맛있는 거 먹으러 가자! 🥂✨`;
-
-            setTimeout(() => {
-        if (navigator.share) {
-          navigator.share({
-            title: '200일 기념 식사권',
-            text: message
-          }).catch(() => {});
-        } else {
-          alert(message);
-        }
-      }, 800);
-
+      const menuText = document.getElementById('menuInput').value.trim() || '강민이가 정해둔 서프라이즈 맛집!';
+      
+      // 팝업창에 캐치테이블 링크 버튼 띄우기
+      document.getElementById('modalMsg').innerText = `🎉 [시크릿 맛집 예약 완료!]\n\n강민이가 서녕이를 위해 준비한 맛집이야! 아래 버튼을 눌러서 예약 정보를 확인해봐 🥂✨`;
+      
+      document.getElementById('modalContent').innerHTML = `
+        <a href="${catchTableUrl}" target="_blank" class="catch-link-btn">🍽️ 캐치테이블 예약 상세 보기</a>
+      `;
+      
+      document.getElementById('modalBtnText').innerText = "확인 💖";
+      document.getElementById('modal').style.display = 'flex';
     }
   </script>
 </body>
