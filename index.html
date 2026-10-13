@@ -1,390 +1,296 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>서녕 전용 200일 기념 식사권 💕</title>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-  <style>
-    :root {
-      --bg-pink: #fdf0f4;
-      --card-bg: #ffffff;
-      --main-pink: #ff85a2;
-      --soft-pink: #fce4ec;
-      --cocoa-brown: #5c3d2e;
-      --light-brown: #8d6e63;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
-    }
-
-    body {
-      background-color: var(--bg-pink);
-      color: var(--cocoa-brown);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-    }
-
-    .envelope-screen {
-      width: 100%;
-      max-width: 380px;
-      background: var(--card-bg);
-      border-radius: 24px;
-      border: 3px dashed var(--main-pink);
-      padding: 40px 24px;
-      text-align: center;
-      box-shadow: 0 10px 25px rgba(255, 133, 162, 0.2);
-    }
-
-    .envelope-icon {
-      font-size: 64px;
-      margin-bottom: 20px;
-      animation: bounce 2s infinite;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    .open-btn {
-      background: linear-gradient(135deg, #ff85a2, #ff6b8b);
-      color: white;
-      font-size: 18px;
-      font-weight: bold;
-      padding: 16px 32px;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      box-shadow: 0 6px 20px rgba(255, 133, 162, 0.4);
-      transition: all 0.2s;
-      margin-top: 20px;
-    }
-
-    .open-btn:active {
-      transform: scale(0.95);
-    }
-
-    .container {
-      display: none;
-      width: 100%;
-      max-width: 420px;
-      background: var(--card-bg);
-      border-radius: 24px;
-      border: 3px dashed var(--cocoa-brown);
-      padding: 24px;
-      box-shadow: 0 10px 25px rgba(92, 61, 46, 0.1);
-      animation: fadeIn 0.8s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .header-tag {
-      display: inline-block;
-      background-color: var(--main-pink);
-      color: white;
-      font-size: 13px;
-      font-weight: bold;
-      padding: 6px 14px;
-      border-radius: 20px;
-      margin-bottom: 12px;
-    }
-
-    .title {
-      font-size: 22px;
-      font-weight: 800;
-      color: var(--cocoa-brown);
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .info-card {
-      background-color: var(--soft-pink);
-      border-radius: 16px;
-      padding: 16px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-
-    .info-item .label {
-      font-size: 12px;
-      color: var(--light-brown);
-      margin-bottom: 4px;
-    }
-
-    .info-item .value {
-      font-size: 14px;
-      font-weight: bold;
-      color: var(--cocoa-brown);
-    }
-
-    .section-title {
-      font-size: 15px;
-      font-weight: bold;
-      margin-bottom: 12px;
-      color: var(--cocoa-brown);
-    }
-
-    .options-group {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .option-btn {
-      display: flex;
-      align-items: center;
-      padding: 14px 16px;
-      border: 2px solid #f0e6e6;
-      border-radius: 14px;
-      background: white;
-      cursor: pointer;
-    }
-
-    .option-btn.selected {
-      border-color: var(--main-pink);
-      background-color: #fff5f7;
-    }
-
-    .radio-circle {
-      width: 18px;
-      height: 18px;
-      border: 2px solid var(--light-brown);
-      border-radius: 50%;
-      margin-right: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .option-btn.selected .radio-circle {
-      border-color: var(--main-pink);
-      background-color: var(--main-pink);
-    }
-
-    .option-text .opt-title {
-      font-size: 14px;
-      font-weight: bold;
-      color: var(--cocoa-brown);
-    }
-
-    .option-text .opt-sub {
-      font-size: 11px;
-      color: var(--light-brown);
-      margin-top: 2px;
-    }
-
-    .custom-input {
-      width: 100%;
-      padding: 12px 16px;
-      border: 1.5px solid #e2d8d5;
-      border-radius: 12px;
-      font-size: 13px;
-      outline: none;
-      color: var(--cocoa-brown);
-      margin-bottom: 24px;
-    }
-
-    .submit-btn {
-      width: 100%;
-      background: linear-gradient(135deg, #ff85a2, #ff6b8b);
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      padding: 16px;
-      border: none;
-      border-radius: 16px;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(255, 133, 162, 0.4);
-    }
-
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
-    }
-
-    .modal-box {
-      background: white;
-      padding: 24px;
-      border-radius: 20px;
-      width: 90%;
-      max-width: 340px;
-      text-align: center;
-    }
-
-    .modal-msg {
-      font-size: 15px;
-      font-weight: bold;
-      color: var(--cocoa-brown);
-      margin-bottom: 16px;
-      line-height: 1.5;
-    }
-
-    .catch-link-btn {
-      display: block;
-      background: #ff3b30;
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      padding: 14px;
-      border-radius: 12px;
-      margin-bottom: 10px;
-      font-size: 15px;
-      box-shadow: 0 4px 10px rgba(255, 59, 48, 0.3);
-    }
-
-    .modal-close-btn {
-      background: #e2d8d5;
-      color: var(--cocoa-brown);
-      border: none;
-      width: 100%;
-      padding: 12px;
-      border-radius: 12px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>서녕 전용 200일 기념 식사권 💕</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --bg-pink: #fdf0f4;
+            --card-bg: #ffffff;
+            --main-pink: #ff85a2;
+            --soft-pink: #fce4ec;
+            --cocoa-brown: #5c3d2e;
+            --light-brown: #8d6e63;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; }
+        body {
+            background-color: var(--bg-pink);
+            color: var(--cocoa-brown);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .envelope-screen {
+            width: 100%;
+            max-width: 380px;
+            background: var(--card-bg);
+            border-radius: 24px;
+            border: 3px dashed var(--main-pink);
+            padding: 40px 24px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(255, 133, 162, 0.2);
+        }
+        .envelope-icon { font-size: 64px; margin-bottom: 20px; animation: bounce 2s infinite; }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .open-btn {
+            background: linear-gradient(135deg, #ff85a2, #ff6b8b);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(255, 133, 162, 0.4);
+            transition: all 0.2s;
+            margin-top: 20px;
+        }
+        .open-btn:active { transform: scale(0.95); }
+        .container {
+            display: none;
+            width: 100%;
+            max-width: 420px;
+            background: var(--card-bg);
+            border-radius: 24px;
+            border: 3px dashed var(--cocoa-brown);
+            padding: 24px;
+            box-shadow: 0 10px 25px rgba(92, 61, 46, 0.1);
+            animation: fadeIn 0.8s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .header-tag {
+            display: inline-block;
+            background-color: var(--main-pink);
+            color: white;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+        }
+        .title { font-size: 22px; font-weight: 800; color: var(--cocoa-brown); text-align: center; margin-bottom: 20px; }
+        .info-card {
+            background-color: var(--soft-pink);
+            border-radius: 16px;
+            padding: 16px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .info-item .label { font-size: 12px; color: var(--light-brown); margin-bottom: 4px; }
+        .info-item .value { font-size: 14px; font-weight: bold; color: var(--cocoa-brown); }
+        .section-title { font-size: 15px; font-weight: bold; margin-bottom: 12px; color: var(--cocoa-brown); }
+        .options-group { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        .option-btn {
+            display: flex;
+            align-items: center;
+            padding: 14px 16px;
+            border: 2px solid #f0e6e6;
+            border-radius: 14px;
+            background: white;
+            cursor: pointer;
+        }
+        .option-btn.selected { border-color: var(--main-pink); background-color: #fff5f7; }
+        .radio-circle {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--light-brown);
+            border-radius: 50%;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .option-btn.selected .radio-circle { border-color: var(--main-pink); background-color: var(--main-pink); }
+        .option-text .opt-title { font-size: 14px; font-weight: bold; color: var(--cocoa-brown); }
+        .option-text .opt-sub { font-size: 11px; color: var(--light-brown); margin-top: 2px; }
+        .custom-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid #e2d8d5;
+            border-radius: 12px;
+            font-size: 13px;
+            outline: none;
+            color: var(--cocoa-brown);
+            margin-bottom: 24px;
+        }
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #ff85a2, #ff6b8b);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 16px;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 133, 162, 0.4);
+        }
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+        .modal-box {
+            background: white;
+            padding: 24px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 340px;
+            text-align: center;
+        }
+        .modal-msg { font-size: 15px; font-weight: bold; color: var(--cocoa-brown); margin-bottom: 16px; line-height: 1.5; }
+        .catch-link-btn {
+            display: block;
+            background: #ff3b30;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            font-size: 15px;
+            box-shadow: 0 4px 10px rgba(255, 59, 48, 0.3);
+        }
+        .modal-close-btn {
+            background: #e2d8d5;
+            color: var(--cocoa-brown);
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-
-  <div class="envelope-screen" id="envelopeScreen">
-    <div class="envelope-icon">💌</div>
-    <h2 style="font-size:20px; margin-bottom:10px;">HAPPY 200 DAYS 💕</h2>
-    <p style="color:var(--light-brown); font-size:14px; margin-bottom:20px;">서녕이만을 위한 특별한 선물이 도착했어요! 저희 데이트 할래요? ㅎ</p>
-    <button class="open-btn" onclick="openEnvelope()">✉️ 데이트 하기!</button>
-  </div>
-
-  <div class="container" id="voucherContainer">
-    <div style="text-align: center;">
-      <span class="header-tag">✨ 선영이를 위한 유일한 초대장 ✨</span>
-      <h1 class="title">서녕 전용 200일 기념 식사권</h1>
+    <div class="envelope-screen" id="envelopeScreen">
+        <div class="envelope-icon">💌</div>
+        <h2 style="font-size:20px; margin-bottom:10px;">HAPPY 200 DAYS 💕</h2>
+        <p style="color:var(--light-brown); font-size:14px; margin-bottom:20px;">서녕이만을 위한 특별한 선물이 도착했어요! 저희 데이트 할래요? ㅎ</p>
+        <button class="open-btn" onclick="openEnvelope()">✉️ 데이트 하기!</button>
     </div>
 
-    <div class="info-card">
-      <div class="info-item">
-        <div class="label">받는 사람 (VIP)</div>
-        <div class="value">강민이 제일 좋아하는 서녕 💕</div>
-      </div>
-      <div class="info-item">
-        <div class="label">발급자</div>
-        <div class="value">서녕이를 가장 좋아하는 사람</div>
-      </div>
-      <div class="info-item">
-        <div class="label">유효 기간</div>
-        <div class="value">평생 무제한 ∞</div>
-      </div>
-      <div class="info-item">
-        <div class="label">사용 조건</div>
-        <div class="value">맘껏 맛있는 거 먹기! 🍽️</div>
-      </div>
-    </div>
-
-    <div class="section-title">🍽️ 오늘 어디 맛집으로 갈까? (선택)</div>
-    <div class="options-group">
-      <div class="option-btn selected" onclick="selectOption(this, 'secret')">
-        <div class="radio-circle"></div>
-        <div class="option-text">
-          <div class="opt-title">강민이가 예약해둔 시크릿 맛집 🍽️</div>
-          <div class="opt-sub">분위기 좋은 프리미엄 맛집 코스</div>
+    <div class="container" id="voucherContainer">
+        <div style="text-align: center;">
+            <span class="header-tag">✨ 선영이를 위한 유일한 초대장 ✨</span>
+            <h1 class="title">서녕 전용 200일 기념 식사권</h1>
         </div>
-      </div>
-
-      <div class="option-btn" onclick="selectOption(this, 'home')">
-        <div class="radio-circle"></div>
-        <div class="option-text">
-          <div class="opt-title">집밥 강선생 (강민이의 홈메이드 요리) 🍳</div>
-          <div class="opt-sub">정성만 가득한 요리 도전</div>
+        <div class="info-card">
+            <div class="info-item">
+                <div class="label">받는 사람 (VIP)</div>
+                <div class="value">강민이 제일 좋아하는 서녕 💕</div>
+            </div>
+            <div class="info-item">
+                <div class="label">발급자</div>
+                <div class="value">서녕이를 가장 좋아하는 사람</div>
+            </div>
+            <div class="info-item">
+                <div class="label">유효 기간</div>
+                <div class="value">평생 무제한 ∞</div>
+            </div>
+            <div class="info-item">
+                <div class="label">사용 조건</div>
+                <div class="value">맘껏 맛있는 거 먹기! 🍽️</div>
+            </div>
         </div>
-      </div>
 
-      <div class="option-btn" onclick="selectOption(this, 'fast')">
-        <div class="radio-circle"></div>
-        <div class="option-text">
-          <div class="opt-title">편의점 꿀조합 or 오늘 저녁 단식! 🍜</div>
-          <div class="opt-sub">과연 서녕이의 선택은...?</div>
+        <div class="section-title">🍽️ 오늘 어디 맛집으로 갈까? (선택)</div>
+        <div class="options-group">
+            <div class="option-btn selected" onclick="selectOption(this, 'secret')">
+                <div class="radio-circle"></div>
+                <div class="option-text">
+                    <div class="opt-title">강민이가 예약해둔 시크릿 맛집 🍽️</div>
+                    <div class="opt-sub">분위기 좋은 프리미엄 맛집 코스</div>
+                </div>
+            </div>
+            <div class="option-btn" onclick="selectOption(this, 'home')">
+                <div class="radio-circle"></div>
+                <div class="option-text">
+                    <div class="opt-title">집밥 강선생 (강민이의 홈메이드 요리) 🍳</div>
+                    <div class="opt-sub">정성만 가득한 요리 도전</div>
+                </div>
+            </div>
+            <div class="option-btn" onclick="selectOption(this, 'fast')">
+                <div class="radio-circle"></div>
+                <div class="option-text">
+                    <div class="opt-title">편의점 꿀조합 or 오늘 저녁 단식! 🍜</div>
+                    <div class="opt-sub">과연 서녕이의 선택은...?</div>
+                </div>
+            </div>
         </div>
-      </div>
+
+        <div class="section-title">✍️ 다음에 가고싶은 맛집이나 먹고싶은 메뉴</div>
+        <input type="text" id="menuInput" class="custom-input" placeholder="예: 성수동 파스타, 오마카세 등">
+
+        <button class="submit-btn" onclick="useVoucher()">🍴 이 맛집 식사권 사용하기! 💕</button>
     </div>
 
-    <div class="section-title">✍️ 다음에 가고싶은 맛집이나 먹고싶은 메뉴</div>
-    <input type="text" id="menuInput" class="custom-input" placeholder="예: 성수동 파스타, 오마카세 등">
-
-    <button class="submit-btn" onclick="useVoucher()">🍴 이 맛집 식사권 사용하기! 💕</button>
-  </div>
-
-  <div class="modal-overlay" id="modal">
-    <div class="modal-box">
-      <div class="modal-msg" id="modalMsg">미안해,,준비하지 못했오,, 🥺</div>
-      <div id="modalContent"></div>
-      <button class="modal-close-btn" onclick="closeModal()" id="modalBtnText">다시 고르기 💖</button>
+    <div class="modal-overlay" id="modal">
+        <div class="modal-box">
+            <div class="modal-msg" id="modalMsg">미안해,,준비하지 못했오,, 🥺</div>
+            <div id="modalContent"></div>
+            <button class="modal-close-btn" onclick="closeModal()" id="modalBtnText">다시 고르기 💖</button>
+        </div>
     </div>
-  </div>
 
-  <script>
-    // 💡 아래 따옴표 안에 복사해 오신 캐치테이블 예약/공유 링크를 쏙 넣어주세요!
-    const catchTableUrl = "https://app.catchtable.co.kr/ct/invite/dining/whI7gR4_MPwNK-ICNo_N1w?reservationRef=wepyvv-5OFb6NFHZ7_wxOA&pathType=A&invitorRef=x_F7iMVq2WJeY0IUEZERqw&inviteLogRef=0MK5drh1VR2w2kRjpxoMug";
+    <script>
+        const catchTableUrl = "https://app.catchtable.co.kr/ct/invite/dining/whI7gR4_MPwNK-ICNo_N1w?reservationRef=wepyvv-5OFb6NFHZ7_wxOA&pathType=A&invitorRef=x_F7iMVq2WJeY0IUEZERqw&inviteLogRef=0MK5drh1VR2w2kRjpxoMug";
+        let selectedType = 'secret';
 
-    let selectedType = 'secret';
+        function openEnvelope() {
+            document.getElementById('envelopeScreen').style.display = 'none';
+            document.getElementById('voucherContainer').style.display = 'block';
+            confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
+        }
 
-    function openEnvelope() {
-      document.getElementById('envelopeScreen').style.display = 'none';
-      document.getElementById('voucherContainer').style.display = 'block';
-      confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
-    }
+        function selectOption(element, type) {
+            document.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedType = type;
+        }
 
-    function selectOption(element, type) {
-      document.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('selected'));
-      element.classList.add('selected');
-      selectedType = type;
-    }
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
 
-    function closeModal() {
-      document.getElementById('modal').style.display = 'none';
-    }
+        function useVoucher() {
+            if (selectedType !== 'secret') {
+                document.getElementById('modalMsg').innerText = "미안해,,준비하지 못했오,, 🥺\n다른 걸 골라봐!";
+                document.getElementById('modalContent').innerHTML = "";
+                document.getElementById('modalBtnText').innerText = "다시 고르기 💖";
+                document.getElementById('modal').style.display = 'flex';
+                return;
+            }
 
-    function useVoucher() {
-      if (selectedType !== 'secret') {
-        document.getElementById('modalMsgនិយាយ'] = "";
-        document.getElementById('modalMsg').innerText = "미안해,,준비하지 못했오,, 🥺\n다른 걸 골라봐!";
-        document.getElementById('modalContent').innerHTML = "";
-        document.getElementById('modalBtnText').innerText = "다시 고르기 💖";
-        document.getElementById('modal').style.display = 'flex';
-        return;
-      }
+            confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } });
+            const menuText = document.getElementById('menuInput').value.trim() || '강민이가 정해둔 서프라이즈 맛집!';
 
-      confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } });
-
-      const menuText = document.getElementById('menuInput').value.trim() || '강민이가 정해둔 서프라이즈 맛집!';
-      
-      // 팝업창에 캐치테이블 링크 버튼 띄우기
-      document.getElementById('modalMsg').innerText = `🎉 [시크릿 맛집 예약 완료!]\n\n강민이가 서녕이를 위해 준비한 맛집이야! 아래 버튼을 눌러서 예약 정보를 확인해봐 🥂✨`;
-      
-      document.getElementById('modalContent').innerHTML = `
-        <a href="${catchTableUrl}" target="_blank" class="catch-link-btn">🍽️ 캐치테이블 예약 상세 보기</a>
-      `;
-      
-      document.getElementById('modalBtnText').innerText = "확인 💖";
-      document.getElementById('modal').style.display = 'flex';
-    }
-  </script>
+            document.getElementById('modalMsg').innerText = `🎉 [시크릿 맛집 예약 완료!]\n\n강민이가 서녕이를 위해 준비한 맛집이야! 아래 버튼을 눌러서 예약 정보를 확인해봐 🥂✨`;
+            document.getElementById('modalContent').innerHTML = `
+                <a href="${catchTableUrl}" target="_blank" class="catch-link-btn">🍽️ 캐치테이블 예약 상세 보기</a>
+            `;
+            document.getElementById('modalBtnText').innerText = "확인 💖";
+            document.getElementById('modal').style.display = 'flex';
+        }
+    </script>
 </body>
 </html>
