@@ -272,7 +272,7 @@
             document.getElementById('modal').style.display = 'none';
         }
 
-        function useVoucher() {
+      function useVoucher() {
             if (selectedType !== 'secret') {
                 document.getElementById('modalMsg').innerText = "미안해,,준비하지 못했오,, 🥺\n다른 걸 골라봐!";
                 document.getElementById('modalContent').innerHTML = "";
@@ -282,14 +282,9 @@
             }
 
             confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } });
-            const menuText = document.getElementById('menuInput').value.trim() || '강민이가 정해둔 서프라이즈 맛집!';
-
-            document.getElementById('modalMsg').innerText = `🎉 [시크릿 맛집 예약 완료!]\n\n강민이가 서녕이를 위해 준비한 맛집이야! 아래 버튼을 눌러서 예약 정보를 확인해봐 🥂✨`;
-            document.getElementById('modalContent').innerHTML = `
-                <a href="${catchTableUrl}" target="_blank" class="catch-link-btn">🍽️ 캐치테이블 예약 상세 보기</a>
-            `;
-            document.getElementById('modalBtnText').innerText = "확인 💖";
-            document.getElementById('modal').style.display = 'flex';
+            
+            // 시크릿 맛집을 누르면 팝업 없이 바로 캐치테이블 링크로 이동합니다!
+            window.open(catchTableUrl, '_blank');
         }
     </script>
 </body>
